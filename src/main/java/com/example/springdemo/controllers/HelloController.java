@@ -44,4 +44,24 @@ class HelloController {
 
         return "join";
     }
+
+    @GetMapping("/roll-dice")
+    public String showDiceForm() {
+        return "dice";
+    }
+
+    @PostMapping("/roll-dice")
+    public String showDiceResult(@RequestParam(name = "number") Integer number, Model model) {
+        int numberRolled = (int) ((Math.random() * 6) + 1);
+
+        String message = "You selected " + number + " and the number rolled was " + numberRolled + ".";
+        if (number.equals(numberRolled)) {
+            message += " You Won!";
+        } else {
+            message += " Oh well... try again!!";
+        }
+        model.addAttribute("message", message);
+
+        return "dice";
+    }
 }

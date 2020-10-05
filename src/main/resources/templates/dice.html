@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dice</title>
+    <link th:replace="partials/links :: links"/>
+</head>
+<body>
+    <div th:replace="partials/header :: header"></div>
+    <nav th:replace="partials/navbar :: navbar"/>
+
+    <div class="container">
+        <h2 th:text="${message}"></h2><br>
+
+        <h2 class="prompt">What do you think will be rolled?!</h2>
+        <form action="/roll-dice" method="post">
+            Choose your number:
+            <button id="num1" class="di-num" name="number" type="submit" value="1">1</button>
+            <button id="num2" class="di-num" name="number" type="submit" value="2">2</button>
+            <button id="num3" class="di-num" name="number" type="submit" value="3">3</button>
+            <button id="num4" class="di-num" name="number" type="submit" value="4">4</button>
+            <button id="num5" class="di-num" name="number" type="submit" value="5">5</button>
+            <button id="num6" class="di-num" name="number" type="submit" value="6">6</button>
+        </form>
+    </div>
+
+    <div th:replace="partials/footer_nav :: footer_nav"></div>
+    <div th:replace="partials/scripts :: scripts"/>
+</body>
+</html>
