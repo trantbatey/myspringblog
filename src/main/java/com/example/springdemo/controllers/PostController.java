@@ -20,14 +20,14 @@ public class PostController {
         postList.add(new Post("First Post", "This is the body of the first test post."));
         postList.add(new Post("Second Post", "This is the body of the second test post."));
         model.addAttribute("postList", postList);
-        return "posts/list";
+        return "posts/index";
     }
 
     @GetMapping("/post/{id}")
     public String showPost(@PathVariable Integer id, Model model) {
         Post post = new Post("A Single Post", "This is the body of a single test post.");
         model.addAttribute("post", post);
-        return "posts/post";
+        return "posts/show";
     }
 
     @GetMapping("/post/create")

@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class AdController {
 
-    @GetMapping("/ad/{title}")
-    public String showAdByTitle(@PathVariable String title, Model model) {
+    @GetMapping("/ad/{id}")
+    public String showAdByTitle(@PathVariable long id, Model model) {
         Ad ad = new Ad();
         ad.setTitle("title");
         ad.setDescription("This is a demo of creating a view in Spring.");
         model.addAttribute("ad", ad);
-        return "ads/ad";
+        return "ads/show";
     }
 }

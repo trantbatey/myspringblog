@@ -21,7 +21,7 @@ public class MathController {
     public String subtract(@PathVariable String parm1, @PathVariable String parm2) {
         int num1 = Integer.parseInt(parm1);
         int num2 = Integer.parseInt(parm2);
-        return Integer.toString(num1 - num2);
+        return Integer.toString(num2 - num1);
     }
 
     @GetMapping("/multiply/{parm1}/by/{parm2}")
