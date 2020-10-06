@@ -10,10 +10,14 @@
     <nav th:replace="partials/navbar :: navbar"/>
 
     <main class="container">
-        <h2 th:text="${ad.title}"></h2>
-        <p th:text="${ad.description}"></p>
-        <form style="display: inline" th:action="@{'/ads/edit/' + ${ad.id}}"><button>Edit</button></form>
-        <form style="display: inline" th:action="@{'/ads/delete/' + ${ad.id}}"><button>Delete</button></form>
+        <div th:each="item : ${ads}">
+            <form th:action="@{'/ads/' + ${item.id}}">
+                <h2 th:text="${item.title}"></h2>
+                <p th:text="${item.description}"></p>
+                <button>View</button>
+            </form>
+            <br>
+        </div>
     </main>
 
     <div th:replace="partials/scripts :: scripts"/>
