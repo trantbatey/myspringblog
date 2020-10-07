@@ -1,18 +1,22 @@
 package com.example.springdemo.controllers;
 
+import com.example.springdemo.models.Ad;
 import com.example.springdemo.models.Post;
+import com.example.springdemo.repositories.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class PostController {
+    private final PostRepository postRepo;
+
+    public PostController(PostRepository postRepo) {
+        this.postRepo = postRepo;
+    }
 
     @GetMapping("/post")
     public String showPosts(Model model) {
@@ -31,14 +35,42 @@ public class PostController {
     }
 
     @GetMapping("/post/create")
-    @ResponseBody
     public String showCreatePost () {
-        return "view the form for creating a post";
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String createPost() {
-        return "create a new post";
+    public String createPost(@RequestParam(name = "title") String title,
+                             @RequestParam(name = "body") String body,
+                             Model model) {
+        Post post = new Post(title, body);
+        postRepo.save(post);
+        return "redirect:/ads/" + post.getId();
+    }
+
+    @GetMapping("/posts/delete/{id}")
+    public String deleteAd(@PathVariable long id, Model model) {
+        Post post = postRepo.getPostById(id);
+        postRepo.delete(post);
+        return "redirect:/ads";
+    }
+
+    @GetMapping("/posts/edit/{id}")
+    public String editAd(@PathVariable long id, Model model) {
+        Post post = postRepo.getPostById(id);
+        model.addAttribute("post", post);
+        return "ads/edit";
+    }
+
+    @PostMapping("/posts/edit")
+    public String updateAd(@RequestParam(name = "id") long id,
+                           @RequestParam(name = "title") String title,
+                           @RequestParam(name = "body") String body) {
+        Post post = new Post();
+        post.setId(id);
+        post.setTitle(title);
+        post.setBody(body);
+        postRepo.save(post);
+        return "redirect:/ads/" + post.getId();
     }
 }
