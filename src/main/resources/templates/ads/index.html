@@ -14,7 +14,9 @@
             <form th:action="@{'/ads/' + ${item.id}}">
                 <h2 th:text="${item.title}"></h2>
                 <p th:text="${item.description}"></p>
+                <p th:if="${item.owner}">Email: <span th:text="${item.owner.email}"></span></p>
                 <button>View</button>
+                <br><br>
             </form>
             <br>
         </div>

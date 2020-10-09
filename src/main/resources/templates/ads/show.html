@@ -12,7 +12,7 @@
     <main class="container">
         <h2 th:text="${ad.title}"></h2>
         <p th:text="${ad.description}"></p>
-        <p>Email: <span th:text="${ad.owner.email}"></span></p>
+        <p th:if="${ad.owner}">Email: <span th:text="${ad.owner.email}"></span></p>
         <form style="display: inline" th:action="@{'/ads/edit/' + ${ad.id}}"><button>Edit</button></form>
         <form style="display: inline" th:action="@{'/ads/delete/' + ${ad.id}}"><button>Delete</button></form>
     </main>

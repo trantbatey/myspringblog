@@ -10,13 +10,11 @@
 <nav th:replace="partials/navbar :: navbar"/>
 
     <main class="container">
-        <form action="/ads/create" method="post">
+        <form th:action="@{/ads/create}" th:method="post" th:object="${ad}">
             <label for="title">Enter Ad Title: </label>
-            <input type="text" id="title" name="title"><br>
+            <input id="title" th:field="*{title}"><br>
             <label for="description">Type in the ad text:</label><br>
-            <textarea name="description" id="description" cols="72" rows="5"></textarea><br>
-            <label for="username">Enter the user name: </label>
-            <input type="text" id="username" name="username"><br>
+            <textarea th:field="*{description}" id="description" cols="72" rows="5"></textarea><br>
             <button>Submit</button>
         </form>
     </main>
