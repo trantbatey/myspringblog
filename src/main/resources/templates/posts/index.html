@@ -10,12 +10,13 @@
     <nav th:replace="partials/navbar :: navbar"/>
 
     <main class="container">
-        <show_posts th:if="${postList}">
-            <div th:each="item : ${postList}">
+        <show_posts th:if="${posts}">
+            <div th:each="item : ${posts}">
                 <form th:action="@{'/posts/' + ${item.id}}">
                     <h2 th:text="${item.title}" />
                     <p th:text="${item.body}" />
                     <button>View</button>
+                    <br><br>
                 </form>
             </div>
         </show_posts>

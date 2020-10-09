@@ -13,6 +13,7 @@
         <show_post th:if="${post}">
             <h2 th:text="${post.title}"></h2>
             <p th:text="${post.body}"></p>
+            <p>Email: <span th:text="${post.owner.email}"></span></p>
             <form style="display: inline" th:action="@{'/ads/edit/' + ${post.id}}"><button>Edit</button></form>
             <form style="display: inline" th:action="@{'/ads/delete/' + ${post.id}}"><button>Delete</button></form>
         </show_post>

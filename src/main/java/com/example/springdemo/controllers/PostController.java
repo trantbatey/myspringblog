@@ -1,8 +1,9 @@
 package com.example.springdemo.controllers;
 
-import com.example.springdemo.models.Ad;
 import com.example.springdemo.models.Post;
+import com.example.springdemo.models.User;
 import com.example.springdemo.repositories.PostRepository;
+import com.example.springdemo.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,28 +14,28 @@ import java.util.List;
 @Controller
 public class PostController {
     private final PostRepository postRepo;
+    private final UserRepository userRepo;
 
-    public PostController(PostRepository postRepo) {
+    public PostController(PostRepository postRepo, UserRepository userRepo) {
         this.postRepo = postRepo;
+        this.userRepo = userRepo;
     }
 
     @GetMapping("/post")
     public String showPosts(Model model) {
-        List<Post> postList = new ArrayList<>();
-        postList.add(new Post("First Post", "This is the body of the first test post."));
-        postList.add(new Post("Second Post", "This is the body of the second test post."));
-        model.addAttribute("postList", postList);
+        List<Post> posts = postRepo.findAll();
+        model.addAttribute("posts", posts);
         return "posts/index";
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/posts/{id}")
     public String showPost(@PathVariable Integer id, Model model) {
-        Post post = new Post("A Single Post", "This is the body of a single test post.");
+        Post post = postRepo.getPostById(id);
         model.addAttribute("post", post);
         return "posts/show";
     }
 
-    @GetMapping("/post/create")
+    @GetMapping("/posts/create")
     public String showCreatePost () {
         return "posts/create";
     }
@@ -43,7 +44,11 @@ public class PostController {
     public String createPost(@RequestParam(name = "title") String title,
                              @RequestParam(name = "body") String body,
                              Model model) {
-        Post post = new Post(title, body);
+        List<User> users = userRepo.findAll();
+        Post post = new Post();
+        post.setTitle(title);
+        post.setBody(body);
+        if (!users.isEmpty()) post.setOwner(users.get(0));
         postRepo.save(post);
         return "redirect:/ads/" + post.getId();
     }

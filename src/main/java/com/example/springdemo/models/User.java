@@ -23,6 +23,9 @@ public class User {
     @OneToMany
     private List<Ad> ads;
 
+    @OneToMany
+    private List<Post> posts;
+
     public User() {
     }
 
