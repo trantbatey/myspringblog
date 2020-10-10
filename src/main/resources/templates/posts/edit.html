@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Post</title>
+    <div th:replace="partials/links :: links"/>
+</head>
+<body>
+<nav th:replace="partials/navbar :: navbar"/>
+
+<main class="container">
+    <form th:action="@{/posts/create}" th:method="post" th:object="${post}">
+        <label for="title">Enter The Topic: </label>
+        <input type="text" id="title" th:field="*{title}" th:text="${post.title}"><br>
+        <label for="body">Type in the blog post:</label><br>
+        <textarea th:field="*{body}" id="body" cols="72" rows="5" th:text="${post.body}"></textarea><br>
+        <button>Submit</button>
+    </form>
+</main>
+
+<div th:replace="partials/scripts :: scripts"/>
+</body>
+</body>
+</html>

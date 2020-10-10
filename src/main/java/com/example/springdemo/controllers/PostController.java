@@ -7,8 +7,6 @@ import com.example.springdemo.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,7 +19,7 @@ public class PostController {
         this.userRepo = userRepo;
     }
 
-    @GetMapping("/post")
+    @GetMapping("/posts")
     public String showPosts(Model model) {
         List<Post> posts = postRepo.findAll();
         model.addAttribute("posts", posts);
@@ -36,46 +34,42 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String showCreatePost () {
+    public String showCreatePost (Model model) {
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String createPost(@RequestParam(name = "title") String title,
-                             @RequestParam(name = "body") String body,
-                             Model model) {
-        List<User> users = userRepo.findAll();
-        Post post = new Post();
-        post.setTitle(title);
-        post.setBody(body);
-        if (!users.isEmpty()) post.setOwner(users.get(0));
+    public String createPost(@ModelAttribute Post post) {
+        if (post.getOwner() == null) {
+            List<User> users = userRepo.findAll();
+            if (!users.isEmpty()) post.setOwner(users.get(0));
+        }
         postRepo.save(post);
-        return "redirect:/ads/" + post.getId();
+        return "redirect:/posts/" + post.getId();
     }
 
     @GetMapping("/posts/delete/{id}")
     public String deleteAd(@PathVariable long id, Model model) {
         Post post = postRepo.getPostById(id);
         postRepo.delete(post);
-        return "redirect:/ads";
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts/edit/{id}")
     public String editAd(@PathVariable long id, Model model) {
         Post post = postRepo.getPostById(id);
         model.addAttribute("post", post);
-        return "ads/edit";
+        return "posts/edit";
     }
 
     @PostMapping("/posts/edit")
-    public String updateAd(@RequestParam(name = "id") long id,
-                           @RequestParam(name = "title") String title,
-                           @RequestParam(name = "body") String body) {
-        Post post = new Post();
-        post.setId(id);
-        post.setTitle(title);
-        post.setBody(body);
+    public String updateAd(@ModelAttribute Post post) {
+        if (post.getOwner() == null) {
+            List<User> users = userRepo.findAll();
+            if (!users.isEmpty()) post.setOwner(users.get(0));
+        }
         postRepo.save(post);
-        return "redirect:/ads/" + post.getId();
+        return "redirect:/posts/" + post.getId();
     }
 }

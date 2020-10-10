@@ -5,6 +5,9 @@
     background-color: aqua;
     border-color: black;
     border-style: double;
+    position: fixed;
+    top: 0;
+    width: 100%
 }
 
 .footer {
@@ -23,6 +26,13 @@
 
 .topnav {
     margin-bottom: .5em;
+    position: fixed;
+    top: 7.9em;
+    width: 100%
+}
+
+body {
+    padding-top: 12em;
 }
 
 .di-num {
