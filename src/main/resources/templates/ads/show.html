@@ -7,6 +7,7 @@
     <div th:replace="partials/links :: links"/>
 </head>
 <body>
+    <header th:replace="partials/header :: header"/>
     <nav th:replace="partials/navbar :: navbar"/>
 
     <main class="container">
@@ -17,6 +18,7 @@
         <form style="display: inline" th:action="@{'/ads/delete/' + ${ad.id}}"><button>Delete</button></form>
     </main>
 
+    <footer th:replace="partials/footer_nav :: footer_nav"/>
     <div th:replace="partials/scripts :: scripts"/>
 </body>
 </body>
