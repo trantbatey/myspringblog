@@ -45,7 +45,7 @@ public class AdController {
         User user = userRepo.findAll().get(0);
         ad.setOwner(user);
         adRepo.save(ad);
-        emailService.prepareAndSend(ad, "Created Ad: " + ad.getTitle(),
+        emailService.prepareAndSendAd(ad, "Created Ad: " + ad.getTitle(),
                 ad.getTitle() +"\n\n" +
                         ad.getDescription());
         return "redirect:/ads/" + ad.getId();
@@ -59,7 +59,7 @@ public class AdController {
             ad.setOwner(user);
         }
         adRepo.delete(ad);
-        emailService.prepareAndSend(ad, "Deleted Ad: " + ad.getTitle(),
+        emailService.prepareAndSendAd(ad, "Deleted Ad: " + ad.getTitle(),
                 ad.getTitle() +"\n\n" +
                         ad.getDescription());
         return "redirect:/ads";
@@ -84,7 +84,7 @@ public class AdController {
             ad.setOwner(user);
         }
         adRepo.save(ad);
-        emailService.prepareAndSend(ad, "Edited Ad: " + ad.getTitle(),
+        emailService.prepareAndSendAd(ad, "Edited Ad: " + ad.getTitle(),
                 ad.getTitle() +"\n\n" +
                         ad.getDescription());
         return "redirect:/ads/" + ad.getId();

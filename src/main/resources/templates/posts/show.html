@@ -16,6 +16,7 @@
             <p th:if="${post.owner}">Email: <span th:text="${post.owner.email}"></span></p>
             <form style="display: inline" th:action="@{'/posts/edit/' + ${post.id}}"><button>Edit</button></form>
             <form style="display: inline" th:action="@{'/posts/delete/' + ${post.id}}"><button>Delete</button></form>
+            <form style="display: inline" th:action="@{'/posts'}"><button>List</button></form>
         </show_post>
     </main>
 
