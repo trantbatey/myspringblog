@@ -14,7 +14,7 @@ public class User {
     @Column(nullable = false, length = 60, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 150)
+    @Column(nullable = false, length = 150, unique = false)
     private String email;
 
     @Column(nullable = false)
@@ -35,6 +35,13 @@ public class User {
         this.email = email;
         this.password = password;
         this.ads = ads;
+    }
+
+    public User(User copy) {
+        this.id = copy.id;
+        this.username = copy.username;
+        this.email = copy.email;
+        this.password = copy.password;
     }
 
     public long getId() {

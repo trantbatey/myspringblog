@@ -5,6 +5,8 @@ import com.example.springdemo.models.User;
 import com.example.springdemo.repositories.AdRepository;
 import com.example.springdemo.repositories.UserRepository;
 import com.example.springdemo.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +44,11 @@ public class AdController {
 
     @PostMapping("/ads/create")
     public String createAd(@ModelAttribute Ad ad) {
-        User user = userRepo.findAll().get(0);
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (obj == null || !(obj instanceof UserDetails)) {
+            return "redirect:/login";
+        }
+        User user = (User) obj;
         ad.setOwner(user);
         adRepo.save(ad);
         emailService.prepareAndSendAd(ad, "Created Ad: " + ad.getTitle(),
@@ -53,10 +59,14 @@ public class AdController {
 
     @GetMapping("/ads/delete/{id}")
     public String deleteAd(@PathVariable long id, Model model) {
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (obj == null || !(obj instanceof UserDetails)) {
+            return "redirect:/login";
+        }
+        User currentUser = (User) obj;
         Ad ad = adRepo.getAdById(id);
         if (ad.getOwner() == null) {
-            User user = userRepo.findAll().get(0);
-            ad.setOwner(user);
+            ad.setOwner(currentUser);
         }
         adRepo.delete(ad);
         emailService.prepareAndSendAd(ad, "Deleted Ad: " + ad.getTitle(),
@@ -76,12 +86,16 @@ public class AdController {
     public String updateAd(@RequestParam(name = "id") long id,
                            @RequestParam(name = "title") String title,
                            @RequestParam(name = "description") String description) {
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (obj == null || !(obj instanceof UserDetails)) {
+            return "redirect:/login";
+        }
+        User currentUser = (User) obj;
         Ad ad = adRepo.getAdById(id);
         ad.setTitle(title);
         ad.setDescription(description);
         if (ad.getOwner() == null) {
-            User user = userRepo.findAll().get(0);
-            ad.setOwner(user);
+            ad.setOwner(currentUser);
         }
         adRepo.save(ad);
         emailService.prepareAndSendAd(ad, "Edited Ad: " + ad.getTitle(),

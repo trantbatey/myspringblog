@@ -7,6 +7,7 @@
     <div th:replace="partials/links :: links"/>
 </head>
 <body>
+<header th:replace="partials/header :: header"/>
 <nav th:replace="partials/navbar :: navbar"/>
 
     <main class="container">
@@ -18,7 +19,7 @@
             <button>Submit</button>
         </form>
     </main>
-
+<footer th:replace="partials/footer_nav :: footer_nav"/>
 <div th:replace="partials/scripts :: scripts"/>
 </body>
 </body>
